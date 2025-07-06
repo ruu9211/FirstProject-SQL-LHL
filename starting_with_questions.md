@@ -3,20 +3,21 @@ Answer the following questions and provide the SQL queries used to find the answ
     
 **Question 1: Which cities and countries have the highest level of transaction revenues on the site?**
 
+SQL Queries:
 ```sql 
 WITH CleanedData AS (
 SELECT	CASE 
-			WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
-            ELSE country
-        	END AS country,
-		CASE
-			WHEN city IN ('(not set)','not available in demo dataset') THEN 'Unknown City'
-			ELSE city
-			END AS city,
+		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
+            	ELSE country
+        END AS country,
+	CASE
+		WHEN city IN ('(not set)','not available in demo dataset') THEN 'Unknown City'
+		ELSE city
+	END AS city,
         	total_transaction_revenue
 FROM 	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
-         			)
+         	   )
 SELECT	country,
     	city,
     	SUM(total_transaction_revenue) / 1000000 AS total_revenue
@@ -33,6 +34,7 @@ Answer:
 
 **Question 2: What is the average number of products ordered from visitors in each city and country?**
 
+SQL Queries:
 ```sql
 WITH CleanedData AS (
 SELECT 	DISTINCT product_sku, country,
@@ -42,8 +44,8 @@ SELECT 	DISTINCT product_sku, country,
     	END AS city
 FROM 	all_sessions
 WHERE 	city IS NOT NULL 
-		AND country IS NOT NULL
-					),
+	AND country IS NOT NULL
+		    ),
 JoinedData AS (
 SELECT	cd.country,
  	   	cd.city,
@@ -58,7 +60,7 @@ SELECT	country,
     	ROUND(AVG(total_ordered), 2) AS avg_total_ordered
 FROM 	JoinedData
 GROUP BY country, city
-				)
+		 )
 SELECT	*
 FROM 	AggregateData
 WHERE 	city != 'Unknown City'
@@ -72,28 +74,29 @@ Answer:
 
 **Question 3: Is there any pattern in the types (product categories) of products ordered from visitors in each city and country?**
 
+SQL Queries:
 ```sql
 WITH CleanCategories AS (
 SELECT	CASE
       		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
       		ELSE country
-    		END AS country,
+    	END AS country,
     	CASE
       		WHEN city = 'not available in demo dataset' THEN 'Unknown'
-      	ELSE city
+      		ELSE city
     	END AS city,
     	REPLACE(v2_product_category, '${escCatTitle}', 'Unknown') AS cleaned_category,
 		total_transaction_revenue
 FROM 	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
-						),
+			),
 FurtherClean AS (
 SELECT	country,
     	city,
 	    REGEXP_REPLACE(cleaned_category, '^.*/([^/]+)/?$', '\1') AS product_category,
 		total_transaction_revenue
 FROM 	CleanCategories
-				),
+		),
 
 TotalRevenue AS (
 SELECT	country,
@@ -125,13 +128,14 @@ Answer:
 
 **Question 4: What is the top-selling product from each city/country? Can we find any pattern worthy of noting in the products sold?**
 
+SQL Queries:
 ```sql
 WITH CleanedData AS (
 SELECT	all_s.country,
 		CASE
 			WHEN all_s.city IN ('(not set)','not available in demo dataset') THEN all_s.country
 			ELSE all_s.city
-			END AS city,
+		END AS city,
 		LTRIM(p.product_name) AS product_name,	
 		SUM(p.ordered_quantity) AS total_ordered
 FROM	products AS p
@@ -165,16 +169,17 @@ Answer:
 
 **Question 5: Can we summarize the impact of revenue generated from each city/country?**
 
+SQL Queries:
 ```sql
 WITH CleanedData AS (
 SELECT	CASE
       		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
       		ELSE country
-    		END AS country,
+    	END AS country,
     	CASE
       		WHEN city = 'not available in demo dataset' THEN country
       		ELSE city
-    		END AS city,
+    	END AS city,
     		total_transaction_revenue
 FROM 	all_sessions
 					),
@@ -187,9 +192,9 @@ WHERE 	total_transaction_revenue IS NOT NULL
 GROUP BY country, city
 				)
 SELECT	country,
-  		city,
-  		total_revenue,
-  		100 * total_revenue/SUM(total_revenue) OVER (PARTITION BY country) AS percent_country_revenue
+  	city,
+  	total_revenue,
+  	100 * total_revenue/SUM(total_revenue) OVER (PARTITION BY country) AS percent_country_revenue
 FROM 	RevenueByCity
 ORDER BY country, percent_country_revenue DESC;
 ```

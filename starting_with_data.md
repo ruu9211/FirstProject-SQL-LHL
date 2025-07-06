@@ -8,21 +8,21 @@ SELECT	visit_id,
 FROM 	analytics
 WHERE	revenue IS NOT NULL
 GROUP BY visit_id
-				),
+		  ),
 AllSessions AS (				
 SELECT  visit_id,
-		SUM(total_transaction_revenue)/1000000 AS total_revenue_alls
+	SUM(total_transaction_revenue)/1000000 AS total_revenue_alls
 FROM	all_sessions 
 WHERE	total_transaction_revenue IS NOT NULL
 GROUP BY visit_id
 				)
 SELECT	visit_id,
-		total_revenue_analytics,
-		total_Revenue_alls,
-		100 * ((total_revenue_alls) - (total_revenue_analytics))/ total_revenue_alls AS diff	
+	total_revenue_analytics,
+	total_Revenue_alls,
+	100 * ((total_revenue_alls) - (total_revenue_analytics))/ total_revenue_alls AS diff	
 FROM	Analytics
-		JOIN AllSessions
-		USING (visit_id)
+	JOIN AllSessions
+	USING (visit_id)
 ORDER BY diff DESC;
 ```
 
@@ -36,7 +36,7 @@ Answer:
 SQL Queries:
 ```sql
 SELECT	channel_grouping,
-		SUM(total_transaction_revenue)/1000000 AS channel_revenue
+	SUM(total_transaction_revenue)/1000000 AS channel_revenue
 FROM 	all_sessions
 WHERE	total_transaction_revenue IS NOT NULL
 GROUP BY channel_grouping
@@ -53,13 +53,13 @@ Answer:
 SQL Queries:
 ```sql
 SELECT 	all_s.v2_product_name AS product_name,
-		SUM(all_s.total_transaction_revenue/1000000) AS total_revenue,
-		ROUND(AVG(all_s.time_on_site)/60) AS avg_time_on_site
+	SUM(all_s.total_transaction_revenue/1000000) AS total_revenue,
+	ROUND(AVG(all_s.time_on_site)/60) AS avg_time_on_site
 FROM	all_sessions AS all_s
-		JOIN products AS p
-		ON p.sku = all_s.product_sku
+	JOIN products AS p
+	ON p.sku = all_s.product_sku
 WHERE	all_s.time_on_site IS NOT NULL 
-		AND all_s.total_transaction_revenue IS NOT NULL
+	AND all_s.total_transaction_revenue IS NOT NULL
 GROUP BY all_s.v2_product_name
 ORDER BY total_revenue DESC;
 ```
@@ -74,11 +74,11 @@ Answer:
 SQL Queries:
 ```sql
 SELECT	country,
-		SUM(total_transaction_revenue)/1000000 AS total_revenue,
-		EXTRACT(YEAR FROM date) AS revenue_year
+	SUM(total_transaction_revenue)/1000000 AS total_revenue,
+	EXTRACT(YEAR FROM date) AS revenue_year
 FROM	all_sessions
 WHERE	total_transaction_revenue IS NOT NULL
-		AND country = 'United States'
+	AND country = 'United States'
 GROUP BY country, EXTRACT(YEAR FROM date)
 ORDER BY revenue_year;
 ```	
@@ -93,15 +93,15 @@ Answer:
 SQL Queries:
 ```sql
 SELECT	sr.product_sku,
-		LTRIM(p.product_name) AS product_name,
+	LTRIM(p.product_name) AS product_name,
 		CASE
 			WHEN sr.ratio < 1.0 THEN 'Low Demand/Overstock'
 			WHEN sr.ratio > 1.0 THEN 'High Demand/Understock'
 			WHEN sr.ratio = 1.0 THEN 'Balanced'
 		END AS category
 FROM	sales_report AS sr
-		JOIN products AS p
-		ON p.sku = sr.product_sku
+	JOIN products AS p
+	ON p.sku = sr.product_sku
 WHERE	sr.ratio IS NOT NULL
 ORDER BY category;
 ```
