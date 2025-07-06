@@ -33,25 +33,36 @@ Answer:
 
 **Question 2: What is the average number of products ordered from visitors in each city and country?**
 
-
 ```sql
 WITH CleanedData AS (
-SELECT	all_s.country,
-		CASE
-			WHEN all_s.city IN ('(not set)','not available in demo dataset') THEN 'Unknown City'
-			ELSE all_s.city
-			END AS city,
-		ROUND(AVG(total_ordered),2) AS avg_total_ordered
-FROM	sales_by_sku AS sales
-		JOIN all_sessions AS all_s
-		ON sales.product_sku = all_s.product_sku
-WHERE 	all_s.city IS NOT NULL AND all_s.country IS NOT NULL
-GROUP BY all_s.country, city
-ORDER BY avg_total_ordered DESC
-					)
+SELECT 	DISTINCT product_sku, country,
+    	CASE
+      		WHEN city IN ('(not set)', 'not available in demo dataset') THEN 'Unknown City'
+      		ELSE city
+    	END AS city
+FROM 	all_sessions
+WHERE 	city IS NOT NULL 
+		AND country IS NOT NULL
+					),
+JoinedData AS (
+SELECT	cd.country,
+ 	   	cd.city,
+    	ss.total_ordered
+FROM 	CleanedData AS cd
+  		JOIN sales_by_sku AS ss 
+		ON cd.product_sku = ss.product_sku
+			  ),
+AggregateData AS (
+SELECT	country,
+    	city,
+    	ROUND(AVG(total_ordered), 2) AS avg_total_ordered
+FROM 	JoinedData
+GROUP BY country, city
+				)
 SELECT	*
-FROM	CleanedData
-WHERE	city != 'Unknown City';
+FROM 	AggregateData
+WHERE 	city != 'Unknown City'
+ORDER BY avg_total_ordered DESC;
 ```
 
 Answer:

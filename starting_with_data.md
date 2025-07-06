@@ -1,4 +1,4 @@
-Question 1: **What is the percentage difference in revenue between analytics and all_sessions for each visit?**
+**Question 1: What is the percentage difference in revenue between analytics and all_sessions for each visit?**
 
 SQL Queries:
 ```sql
@@ -31,7 +31,7 @@ Answer:
 ![answer_4_1](./images/sd_question_1.png)
 
 
-Question 2: **Which marketing channels drive the highest total revenue?**
+**Question 2: Which marketing channels drive the highest total revenue?**
 
 SQL Queries:
 ```sql
@@ -48,7 +48,7 @@ Answer:
 ![answer_4_2](./images/sd_question_2.png)
 
 
-Question 3: **Which products with matching SKUs generate the most revenue and how much time do users spend on site?**
+**Question 3: Which products with matching SKUs generate the most revenue and how much time do users spend on site?**
 
 SQL Queries:
 ```sql
@@ -69,7 +69,7 @@ Answer:
 ![answer_4_3](./images/sd_question_3.png)
 
 
-Question 4: **What are the yearly revenue trends in the U.S. market?**
+**Question 4: What are the yearly revenue trends in the U.S. market?**
 
 SQL Queries:
 ```sql
@@ -88,7 +88,7 @@ Answer:
 ![answer_4_4](./images/sd_question_4.png)
 
 
-Question 5: **Which products fall into low demand/overstock, high demand/understock, or balanced categories?**
+**Question 5: Which products fall into low demand/overstock, high demand/understock, or balanced categories?**
 
 SQL Queries:
 ```sql
