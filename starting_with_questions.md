@@ -34,12 +34,24 @@ Answer:
 **Question 2: What is the average number of products ordered from visitors in each city and country?**
 
 
-SQL Queries:
-
-
+```sql
+SELECT	all_s.country,
+		CASE
+			WHEN all_s.city IN ('(not set)','not available in demo dataset') THEN all_s.country
+			ELSE all_s.city
+			END AS city,
+		ROUND(AVG(total_ordered),2) AS avg_total_ordered
+FROM	sales_by_sku AS sales
+		JOIN all_sessions AS all_s
+		ON sales.product_sku = all_s.product_sku
+WHERE 	all_s.city IS NOT NULL OR all_s.country IS NOT NULL
+GROUP BY all_s.country, city
+ORDER BY avg_total_ordered DESC;
+```
 
 Answer:
 
+![answer_5_2](./images/question_2.png)
 
 
 
