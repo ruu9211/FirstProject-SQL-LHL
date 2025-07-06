@@ -27,6 +27,7 @@ ORDER BY total_revenue DESC;
 
 Answer:
 
+![answer_5_1](./images/question_1.png)
 
 
 
