@@ -28,7 +28,7 @@ ORDER BY total_revenue DESC;
 
 Answer:
 
-![answer_5_1](./images/question_1.png)
+![answer_5_1](./images/sq_question_1.png)
 
 
 **Question 2: What is the average number of products ordered from visitors in each city and country?**
@@ -56,7 +56,7 @@ WHERE	city != 'Unknown City';
 
 Answer:
 
-![answer_5_2](./images/question_2.png)
+![answer_5_2](./images/sq_question_2.png)
 
 
 **Question 3: Is there any pattern in the types (product categories) of products ordered from visitors in each city and country?**
@@ -109,7 +109,7 @@ ORDER BY country, total_revenue DESC;
 
 Answer:
 
-![answer_5_3](./images/question_3.png)
+![answer_5_3](./images/sq_question_3.png)
 
 
 **Question 4: What is the top-selling product from each city/country? Can we find any pattern worthy of noting in the products sold?**
@@ -149,7 +149,7 @@ ORDER BY country, city;
 
 Answer:
 
-![answer_5_4](./images/question_4.png)
+![answer_5_4](./images/sq_question_4.png)
 
 
 **Question 5: Can we summarize the impact of revenue generated from each city/country?**
@@ -185,7 +185,7 @@ ORDER BY country, percent_country_revenue DESC;
 
 Answer:
 
-![answer_5_5](./images/question_5.png)
+![answer_5_5](./images/sq_question_5.png)
 
 
 
