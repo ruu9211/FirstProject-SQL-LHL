@@ -3,10 +3,27 @@ Answer the following questions and provide the SQL queries used to find the answ
     
 **Question 1: Which cities and countries have the highest level of transaction revenues on the site?**
 
-
-SQL Queries:
-
-
+```sql 
+WITH CTE1 AS (
+			SELECT	CASE 
+						WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
+            			ELSE country
+        				END AS country,
+					CASE
+					WHEN city IN ('(not set)','not available in demo dataset') THEN country
+					ELSE city
+					END AS city,
+        			total_transaction_revenue
+			FROM 	all_sessions
+			WHERE 	total_transaction_revenue IS NOT NULL
+			)
+SELECT	country,
+    	city,
+    	SUM(total_transaction_revenue) / 1000000 AS total_revenue
+FROM 	CTE1
+GROUP BY country, city
+ORDER BY total_revenue DESC;
+```
 
 Answer:
 
