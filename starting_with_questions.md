@@ -61,7 +61,7 @@ Answer:
 
 **Question 3: Is there any pattern in the types (product categories) of products ordered from visitors in each city and country?**
 
-```psql
+```sql
 WITH CleanCategories AS (
 SELECT	CASE
       		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
@@ -114,7 +114,7 @@ Answer:
 
 **Question 4: What is the top-selling product from each city/country? Can we find any pattern worthy of noting in the products sold?**
 
-```psql
+```sql
 WITH CleanedData AS (
 SELECT	all_s.country,
 		CASE
@@ -154,7 +154,7 @@ Answer:
 
 **Question 5: Can we summarize the impact of revenue generated from each city/country?**
 
-```psql
+```sql
 WITH CleanedData AS (
 SELECT	CASE
       		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
