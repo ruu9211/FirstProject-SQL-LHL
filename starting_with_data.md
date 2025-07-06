@@ -1,5 +1,6 @@
-Question 1: ** What is the percentage difference in revenue between analytics and all_sessions for each visit? **
+Question 1: **What is the percentage difference in revenue between analytics and all_sessions for each visit?**
 
+SQL Queries:
 ```sql
 WITH Analytics AS (
 SELECT	visit_id,
