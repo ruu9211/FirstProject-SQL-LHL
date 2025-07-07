@@ -22,14 +22,14 @@ ORDER BY count DESC;
 
 ```sql
 SELECT	COUNT(product_refund_amount) AS refund_count,
-		COUNT(product_quantity) AS quantity_count,
-		COUNT(product_price) AS price_count,
-		COUNT(product_revenue) AS revenue_count
+	COUNT(product_quantity) AS quantity_count,
+	COUNT(product_price) AS price_count,
+	COUNT(product_revenue) AS revenue_count
 FROM	all_sessions
 WHERE	product_refund_amount IS NOT NULL
-		OR product_quantity IS NOT NULL
-		OR product_price IS NOT NULL
-		OR product_revenue IS NOT NULL;
+	OR product_quantity IS NOT NULL
+	OR product_price IS NOT NULL
+	OR product_revenue IS NOT NULL;
 ```
 
 Followed by the following query:
@@ -38,8 +38,8 @@ Followed by the following query:
 SELECT	product_quantity, product_price, product_revenue
 FROM	all_sessions
 WHERE	product_quantity IS NOT NULL
-		AND product_price IS NOT NULL
-		AND product_revenue IS NOT NULL;
+	AND product_price IS NOT NULL
+	AND product_revenue IS NOT NULL;
 ```
 4. Prior to calculating the top-selling product from each city/country and joining products table with the all sessions table, the following query was performed to figure out whether to use LEFT JOIN or INNER JOIN. The results showed that there are 1092 distinct SKUs in the products table and 389 SKUS that is matched to products table showing a total of 703 SKUS which are not matched. 
 

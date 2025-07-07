@@ -48,12 +48,12 @@ WHERE 	city IS NOT NULL
 		    ),
 JoinedData AS (
 SELECT	cd.country,
- 	   	cd.city,
+ 	cd.city,
     	ss.total_ordered
 FROM 	CleanedData AS cd
-  		JOIN sales_by_sku AS ss 
-		ON cd.product_sku = ss.product_sku
-			  ),
+  	JOIN sales_by_sku AS ss 
+	ON cd.product_sku = ss.product_sku
+	      ),
 AggregateData AS (
 SELECT	country,
     	city,
