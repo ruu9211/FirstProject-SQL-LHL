@@ -89,14 +89,14 @@ SELECT	CASE
 	total_transaction_revenue
 FROM 	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
-						),
+			),
 FurtherClean AS (
 SELECT	country,
     	city,
 	REGEXP_REPLACE(cleaned_category, '^Home/([^/]+)(/.*)?$', '\1') AS product_category,
- 	total_transaction_revenue
+	total_transaction_revenue
 FROM 	CleanCategories
-				),
+		),
 
 TotalRevenue AS (
 SELECT	country,
@@ -107,19 +107,19 @@ FROM	FurtherClean
 WHERE	product_category NOT IN ('(not set)', 'Unknown')
 	AND city != 'Unknown'
 GROUP BY country, city, product_category
-				),
+		),
 RankBy AS (
 SELECT	country,
-		city,
-		product_category,
-		total_revenue,
-		RANK () OVER(PARTITION BY country, city ORDER BY total_revenue DESC)
+	city,
+	product_category,
+	total_revenue,
+	RANK () OVER(PARTITION BY country, city ORDER BY total_revenue DESC)
 FROM	TotalRevenue
-		)
+	)
 SELECT	*
 FROM 	RankBy
 WHERE	rank = 1
-ORDER BY country, total_revenue DESC;
+ORDER BY country ASC;
 ```
 
 Answer:
@@ -136,28 +136,28 @@ SELECT	all_s.country,
 		CASE
 			WHEN all_s.city IN ('(not set)','not available in demo dataset') THEN all_s.country
 			ELSE all_s.city
-		END AS city,
-		LTRIM(p.product_name) AS product_name,	
-		SUM(p.ordered_quantity) AS total_ordered
+	END AS city,
+	LTRIM(p.product_name) AS product_name,	
+	SUM(p.ordered_quantity) AS total_ordered
 FROM	products AS p
-		JOIN all_sessions AS all_s
-		ON p.sku = all_s.product_sku
+	JOIN all_sessions AS all_s
+	ON p.sku = all_s.product_sku
 GROUP BY all_s.country, all_s.city, p.product_name
-					),
+		     ),
 RankedBy AS (
 SELECT	country,
-		city,
-		product_name,
-		total_ordered,
-		RANK () OVER (PARTITION BY country, city ORDER BY total_ordered DESC)
+	city,
+	product_name,
+	total_ordered,
+	RANK () OVER (PARTITION BY country, city ORDER BY total_ordered DESC)
 FROM	CleanedData
 WHERE	country != '(not set)' 
-		AND city != '(not set)'
-			)
+	AND city != '(not set)'
+	    )
 SELECT	country,
-		city,
-		product_name,
-		total_ordered
+	city,
+	product_name,
+	total_ordered
 FROM	RankedBy
 WHERE	rank = 1
 ORDER BY country, city;
