@@ -10,14 +10,14 @@ Queries:
 
 ```sql
 SELECT	CASE 
-			WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
-            ELSE country
-        	END AS country,
-		CASE
-			WHEN city IN ('(not set)','not available in demo dataset') THEN 'Unknown City'
-			ELSE city
-			END AS city,
-        	total_transaction_revenue
+		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
+            	ELSE country
+        END AS country,
+	CASE
+		WHEN city IN ('(not set)','not available in demo dataset') THEN 'Unknown City'
+		ELSE city
+	END AS city,
+        total_transaction_revenue
 FROM 	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
 ```
@@ -36,7 +36,7 @@ SELECT	CASE
       	ELSE city
     	END AS city,
     	REPLACE(v2_product_category, '${escCatTitle}', 'Unknown') AS cleaned_category,
-		total_transaction_revenue
+	total_transaction_revenue
 FROM 	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
 ```
@@ -48,8 +48,8 @@ Queries:
 ```sql
 SELECT	country,
     	city,
-	    REGEXP_REPLACE(cleaned_category, '^.*/([^/]+)/?$', '\1') AS product_category,
-		total_transaction_revenue
+	REGEXP_REPLACE(cleaned_category, '^.*/([^/]+)/?$', '\1') AS product_category,
+	total_transaction_revenue
 FROM 	CleanCategories
 ```
 
