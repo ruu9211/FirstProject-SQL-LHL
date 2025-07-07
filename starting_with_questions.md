@@ -80,23 +80,23 @@ WITH CleanCategories AS (
 SELECT	CASE
       		WHEN country = 'Canada' AND city = 'New York' THEN 'United States'
       		ELSE country
-    	END AS country,
+    		END AS country,
     	CASE
       		WHEN city = 'not available in demo dataset' THEN 'Unknown'
-      		ELSE city
+      	ELSE city
     	END AS city,
     	REPLACE(v2_product_category, '${escCatTitle}', 'Unknown') AS cleaned_category,
 		total_transaction_revenue
 FROM 	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
-			),
+						),
 FurtherClean AS (
 SELECT	country,
     	city,
-	    REGEXP_REPLACE(cleaned_category, '^.*/([^/]+)/?$', '\1') AS product_category,
+	    REGEXP_REPLACE(cleaned_category, '^Home/([^/]+)(/.*)?$', '\1') AS product_category,
 		total_transaction_revenue
 FROM 	CleanCategories
-		),
+				),
 
 TotalRevenue AS (
 SELECT	country,
