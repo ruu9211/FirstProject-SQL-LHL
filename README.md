@@ -3,6 +3,8 @@
 ## **Project/Goals**
 This project involved analyzing an e-commerce dataset to support better decision-making across product strategy and regional sales efforts. The dataset included product details, transaction revenue, web session activity, and geographic data such as country and city. Tools such as PostgreSQL and pgAdmin were utilized to clean and transform the data, handle missing values across multiple entities and duplicate records caused by complex joins. Thereafter an exploratory analysis was performed to understand where revenue is coming from, which cities and countries drive the most engagement, and how product sales differ across regions.
 
+Due to file size limitations, the data is hosted [here](https://web.compass.lighthouselabs.ca/p/ds-5/days/w02e/activities/3804)
+
 ## **Process**
 ## Step 1: Understanding the Dataset
 * Explored the following datasets: all_sessions, products, sales_by_sku, analytics, and sales_report.
