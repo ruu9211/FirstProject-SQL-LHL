@@ -48,17 +48,26 @@ Queries:
 ```sql
 SELECT	country,
     	city,
-	REGEXP_REPLACE(cleaned_category, '^.*/([^/]+)/?$', '\1') AS product_category,
-	total_transaction_revenue
+	    REGEXP_REPLACE(cleaned_category, '^Home/([^/]+)(/.*)?$', '\1') AS product_category,
+		total_transaction_revenue
 FROM 	CleanCategories
 ```
 
 4) Total transaction revenue column was stored in micro units of currency. Therefore, it was converted to standard unit.
 
 Queries:
-```psql
+```sql
 SELECT	(total_transaction_revenue)/1000000 AS standard_total_revenue
 FROM	all_sessions
 WHERE 	total_transaction_revenue IS NOT NULL
 ```
+5) Rounded output results to 2 decimal places to present average values better.
 
+Queries:
+```sql
+SELECT	country,
+    	city,
+    	ROUND(AVG(total_ordered), 2) AS avg_total_ordered
+FROM 	JoinedData
+GROUP BY country, city
+```

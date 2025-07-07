@@ -41,3 +41,12 @@ WHERE	product_quantity IS NOT NULL
 		AND product_price IS NOT NULL
 		AND product_revenue IS NOT NULL;
 ```
+4. Prior to calculating the top-selling product from each city/country and joining products table with the all sessions table, the following query was performed to figure out whether to use LEFT JOIN or INNER JOIN. The results showed that there are 1092 distinct SKUs in the products table and 389 SKUS that is matched to products table showing a total of 703 SKUS which are not matched. 
+
+```SQL
+SELECT	COUNT(DISTINCT p.sku),
+	COUNT(DISTINCT all_s.product_sku)
+FROM	products AS p
+	LEFT JOIN all_sessions AS all_s
+	ON p.sku = all_s.product_sku;
+```
