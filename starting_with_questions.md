@@ -143,7 +143,7 @@ FROM	products AS p
 	JOIN all_sessions AS all_s
 	ON p.sku = all_s.product_sku
 GROUP BY all_s.country, all_s.city, p.product_name
-		     ),
+					),
 RankedBy AS (
 SELECT	country,
 	city,
@@ -152,15 +152,15 @@ SELECT	country,
 	RANK () OVER (PARTITION BY country, city ORDER BY total_ordered DESC)
 FROM	CleanedData
 WHERE	country != '(not set)' 
-	AND city != '(not set)'
-	    )
+		AND city != '(not set)'
+			)
 SELECT	country,
 	city,
 	product_name,
 	total_ordered
 FROM	RankedBy
 WHERE	rank = 1
-ORDER BY country, city;
+ORDER BY total_ordered DESC;
 ```
 
 Answer:
